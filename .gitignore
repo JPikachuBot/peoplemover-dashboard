@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+dist/
+build/
+
+.env
+*.env.local
+
+*.log
+.DS_Store
+
+data/mta-static/

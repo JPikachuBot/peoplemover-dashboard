@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeopleMover</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dashboard" id="dashboard">
+    <header class="header">
+      <div class="header-left">
+        <span class="location-name" id="location-name">PeopleMover</span>
+        <span class="health-dot" id="health-dot" title="Data freshness"></span>
+      </div>
+      <div class="header-right">
+        <span class="clock" id="clock"></span>
+      </div>
+    </header>
+
+    <div class="main-grid" id="main-grid">
+      <section class="transit-col" id="transit-col">
+        <div class="loading-msg">Loading transit data…</div>
+      </section>
+
+      <aside class="sidebar" id="sidebar">
+        <section class="traffic-section" id="traffic-section" style="display:none"></section>
+        <section class="bikeshare-section" id="bikeshare-section" style="display:none"></section>
+      </aside>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

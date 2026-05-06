@@ -1,0 +1,62 @@
+location:
+  name: "Courthouse, Arlington VA"
+  lat: 38.8919
+  lng: -77.0769
+
+transit:
+  provider: wmata
+  poll_interval_seconds: 30
+  stations:
+    - id: courthouse
+      name: Courthouse
+      station_code: K04
+      lat: 38.8964
+      lng: -77.0743
+      lines: [OR, SV, BL]
+      directions:
+        - group: "1"
+          label: "Toward DC / Largo"
+        - group: "2"
+          label: "Toward Vienna / Ashburn"
+
+traffic:
+  # provider options: google_maps | tomtom
+  provider: google_maps
+  poll_interval_seconds: 300
+  routes:
+    - id: i66_east
+      label: "I-66 East → DC"
+      origin:
+        address: "1320 N Veitch St, Arlington, VA 22201"
+        lat: 38.8919
+        lng: -77.0769
+      destination:
+        address: "14th St NW & Constitution Ave NW, Washington, DC"
+        lat: 38.8895
+        lng: -77.0324
+    - id: i66_west
+      label: "I-66 West → Fairfax"
+      origin:
+        address: "1320 N Veitch St, Arlington, VA 22201"
+        lat: 38.8919
+        lng: -77.0769
+      destination:
+        address: "Fairfax, VA"
+        lat: 38.8462
+        lng: -77.3064
+
+bikeshare:
+  # Capital Bikeshare — stations are discovered by name from the GBFS feed
+  provider: gbfs
+  feed_url: "https://gbfs.capitalbikeshare.com/gbfs/gbfs.json"
+  poll_interval_seconds: 60
+  station_name_search:
+    - "Courthouse"
+    - "Veitch"
+
+display:
+  theme: dark
+  orientation: landscape
+  refresh_interval_ms: 15000
+  staleness_warning_sec: 60
+  staleness_critical_sec: 120

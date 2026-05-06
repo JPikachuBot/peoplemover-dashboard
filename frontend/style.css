@@ -1,0 +1,382 @@
+/* ── Reset & base ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0d0d0d;
+  --surface:     #161616;
+  --surface-2:   #1e1e1e;
+  --border:      #2a2a2a;
+  --text:        #f0f0f0;
+  --text-dim:    #888;
+  --text-faint:  #444;
+  --accent:      #ffffff;
+  --green:       #4CAF50;
+  --yellow:      #F5A623;
+  --red:         #F44336;
+  --radius:      10px;
+  --gap:         14px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Dashboard shell ───────────────────────────────────────── */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: var(--gap);
+  gap: var(--gap);
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.location-name {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.health-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: background 0.4s;
+}
+.health-dot.healthy { background: var(--green); }
+.health-dot.stale   { background: var(--yellow); }
+.health-dot.error   { background: var(--red); }
+
+.clock {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+/* ── Main grid ─────────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--gap);
+  flex: 1;
+  min-height: 0;
+}
+
+/* Portrait: stack columns */
+.dashboard.portrait .main-grid {
+  grid-template-columns: 1fr;
+}
+
+/* ── Transit column ────────────────────────────────────────── */
+.transit-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  overflow-y: auto;
+}
+
+.loading-msg {
+  color: var(--text-faint);
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* Station card */
+.station-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.station-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.station-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.station-name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.line-pills {
+  display: flex;
+  gap: 4px;
+}
+
+.line-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+.walk-time {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* Direction block inside station card */
+.direction-block {
+  padding: 10px 14px;
+}
+
+.direction-block + .direction-block {
+  border-top: 1px solid var(--border);
+}
+
+.direction-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.arrival-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.arrival-line-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.arrival-destination {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrival-minutes {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-align: right;
+  min-width: 52px;
+}
+
+.arrival-minutes.boarding {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.no-arrivals {
+  font-size: 13px;
+  color: var(--text-faint);
+  padding: 4px 0;
+  font-style: italic;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  overflow-y: auto;
+}
+
+/* ── Traffic section ───────────────────────────────────────── */
+.section-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.route-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.route-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.route-time-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.route-duration {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.route-unit {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.route-delay {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.route-delay.none   { color: var(--green);  background: rgba(76,175,80,.12); }
+.route-delay.light  { color: var(--yellow); background: rgba(245,166,35,.12); }
+.route-delay.heavy  { color: var(--red);    background: rgba(244,67,54,.12); }
+
+.route-via {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.route-error {
+  font-size: 12px;
+  color: var(--red);
+  font-style: italic;
+}
+
+/* ── Bikeshare section ─────────────────────────────────────── */
+.dock-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.dock-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dock-counts {
+  display: flex;
+  gap: 14px;
+}
+
+.dock-count-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.dock-count-num {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.dock-count-label {
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dock-count-num.zero { color: var(--text-faint); }
+
+.dock-closed {
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Stale overlay ─────────────────────────────────────────── */
+.stale-banner {
+  display: none;
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(244,67,54,.9);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+.stale-banner.visible { display: block; }
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }

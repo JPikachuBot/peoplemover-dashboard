@@ -1,0 +1,133 @@
+# Example: NYC Financial District config
+# To use: cp configs/nyc_fidi.yaml config.yaml
+# Requires: MTA_API_KEY in .env
+
+location:
+  name: 15 Broad St, FiDi
+  lat: 40.7074
+  lng: -74.0113
+
+transit:
+  provider: mta
+  poll_interval_seconds: 30
+  elevator_buffer_minutes: 3
+  stations:
+    - id: wall_45
+      name: Wall St
+      lat: 40.707557
+      lng: -74.011862
+      lines: ['4', '5']
+      directions:
+        - code: N
+          label: Uptown
+          stop_id: 419N
+        - code: S
+          label: Downtown
+          stop_id: 419S
+    - id: wall_23
+      name: Wall St
+      lat: 40.706821
+      lng: -74.0091
+      lines: ['2', '3']
+      directions:
+        - code: N
+          label: Uptown
+          stop_id: 230N
+        - code: S
+          label: Downtown
+          stop_id: 230S
+    - id: broad_j
+      name: Broad St
+      lat: 40.706476
+      lng: -74.011056
+      lines: [J]
+      directions:
+        - code: S
+          label: Broad St
+          stop_id: M23S
+        - code: N
+          label: Jamaica Ctr
+          stop_id: M23N
+    - id: rector_1
+      name: Rector St
+      lat: 40.707513
+      lng: -74.013783
+      lines: ['1']
+      directions:
+        - code: N
+          label: Uptown
+          stop_id: 139N
+        - code: S
+          label: Downtown
+          stop_id: 139S
+    - id: rector_rw
+      name: Rector St
+      lat: 40.70722
+      lng: -74.013342
+      lines: [R, W]
+      directions:
+        - code: N
+          label: Uptown
+          stop_id: R26N
+        - code: S
+          label: Downtown
+          stop_id: R26S
+    - id: fulton_ac
+      name: Fulton St
+      lat: 40.710197
+      lng: -74.007691
+      lines: [A, C]
+      directions:
+        - code: N
+          label: Uptown
+          stop_id: A38N
+        - code: S
+          label: Downtown
+          stop_id: A38S
+
+# No traffic section — omit to disable the traffic widget
+
+bikeshare:
+  provider: gbfs
+  feed_url: "https://gbfs.citibikenyc.com/gbfs/gbfs.json"
+  poll_interval_seconds: 60
+  stations:
+    - station_id: "7dda8844-60ba-4449-b05c-54c1d14ab5fb"
+      name: Broadway & Morris St
+    - station_id: "66dbca0f-0aca-11e7-82f6-3863bb44ef7c"
+      name: William St & Pine St
+    - station_id: "66db3583-0aca-11e7-82f6-3863bb44ef7c"
+      name: Liberty St & Broadway
+    - station_id: "e72f0aec-2293-4636-988c-b9d30df092f8"
+      name: Liberty St & Nassau St
+
+inbound_tracker:
+  enabled: true
+  label: INBOUND 4/5
+  routes: ['4', '5']
+  direction: S
+  stops:
+    gct_42: 631S
+    union_sq_14: 635S
+    brooklyn_bridge: 640S
+    fulton: 418S
+    wall: 419S
+  tracking_window:
+    start_station: Grand Central - 42 St
+    end_station: Wall St
+  next_at_42:
+    max_trains: 2
+  in_flight:
+    max_trains: 8
+  destination_stations:
+    - name: Wall St
+      walk_time_minutes: 2
+    - name: Fulton St
+      walk_time_minutes: 4
+
+display:
+  theme: dark
+  orientation: portrait
+  refresh_interval_ms: 15000
+  staleness_warning_sec: 60
+  staleness_critical_sec: 120
