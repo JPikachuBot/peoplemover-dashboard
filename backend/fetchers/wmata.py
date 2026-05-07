@@ -86,7 +86,7 @@ def fetch_wmata_arrivals(
 
         try:
             resp = requests.get(
-                f"{WMATA_BASE}/StationPrediction.svc/json/GetPredictions/{station_code}",
+                f"{WMATA_BASE}/StationPrediction.svc/json/GetPrediction/{station_code}",
                 headers={"api_key": api_key},
                 timeout=REQUEST_TIMEOUT,
             )
