@@ -1,0 +1,93 @@
+PEOPLEMOVER DASHBOARD — SETUP INSTRUCTIONS
+==========================================
+
+STEP 1: GET YOUR API KEYS
+--------------------------
+
+A) WMATA API KEY (DC Metro real-time arrivals)
+   Free. No credit card required.
+
+   1. Go to: developer.wmata.com
+   2. Click "Sign Up" and create an account
+   3. Confirm your email
+   4. Log in → click "Products" in the top nav
+   5. Select "Default Tier" → click "Subscribe"
+      (Name the subscription anything, e.g. "peoplemover")
+   6. Go to your Profile (top right)
+   7. Copy your "Primary Key"
+
+B) TOMTOM API KEY (I-66 traffic data)
+   Free. 2,500 requests/day. No credit card required.
+
+   1. Go to: developer.tomtom.com
+   2. Click "Get a free API key"
+   3. Create an account and confirm your email
+   4. Log in → your API key is shown on the Dashboard
+   5. Copy it
+
+
+STEP 2: CONFIGURE YOUR .ENV FILE
+----------------------------------
+
+   1. In the project folder, copy the example file:
+         cp .env.example .env
+
+   2. Open .env and fill in your keys:
+         WMATA_API_KEY=your_wmata_key_here
+         TRAFFIC_API_KEY=your_tomtom_key_here
+
+   Leave MTA_API_KEY blank unless you're using the NYC config.
+
+
+STEP 3: CONFIGURE YOUR LOCATION (optional)
+--------------------------------------------
+
+   Open config.yaml to customize:
+   - location: your address (lat/lng for walk time calculations)
+   - transit.stations: WMATA station codes for your nearest stop
+   - traffic.routes: origin/destination pairs for your commute
+   - bikeshare.station_name_search: partial names of nearby stations
+
+   To find your WMATA station code:
+   - Go to: api.wmata.com/Rail.svc/json/jStations
+     (paste in browser, search for your station name)
+
+   Example configs for other cities are in the configs/ folder.
+
+
+STEP 4: RUN WITH DOCKER
+-------------------------
+
+   Make sure Docker Desktop is installed and running, then:
+
+      docker compose up --build
+
+   Open your browser to: http://localhost:5001
+
+   To run in the background:
+      docker compose up --build -d
+
+   To stop:
+      docker compose down
+
+
+STEP 5: SWITCHING TRAFFIC PROVIDERS
+-------------------------------------
+
+   The dashboard supports Google Maps or TomTom for traffic.
+   To switch, edit config.yaml:
+
+      traffic:
+        provider: google_maps   # or: tomtom
+
+   Google Maps requires a billing account at console.cloud.google.com
+   (free $200/month credit — you won't be charged at normal usage rates).
+   Enable the "Directions API" and create an API key.
+   Set that key as TRAFFIC_API_KEY in your .env.
+
+
+NOTES
+------
+- Never commit your .env file — it's gitignored by default
+- .env.example is safe to share; it contains no real keys
+- The NYC FiDi example config is in configs/nyc_fidi.yaml
