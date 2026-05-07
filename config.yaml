@@ -9,10 +9,10 @@ transit:
   stations:
     - id: courthouse
       name: Courthouse
-      station_code: K04
+      station_code: K01
       lat: 38.8964
       lng: -77.0743
-      lines: [OR, SV, BL]
+      lines: [OR, SV]
       directions:
         - group: "1"
           label: "Toward DC / Largo"
@@ -21,7 +21,7 @@ transit:
 
 traffic:
   # provider options: google_maps | tomtom
-  provider: google_maps
+  provider: tomtom   # was: google_maps
   poll_interval_seconds: 300
   routes:
     - id: i66_east

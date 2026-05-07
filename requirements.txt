@@ -4,6 +4,6 @@ apscheduler==3.10.4
 requests==2.31.0
 pyyaml==6.0.1
 # MTA GTFS-RT (only needed when transit.provider = mta)
-nyct-gtfs==1.2.1
+nyct-gtfs==1.3.3
 gtfs-realtime-bindings==1.0.0
 protobuf==4.25.3
